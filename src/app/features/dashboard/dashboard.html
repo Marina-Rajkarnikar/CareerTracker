@@ -1,0 +1,71 @@
+<section class="page-header">
+  <div>
+    <h1>Dashboard</h1>
+    <p class="muted">An overview of your job search.</p>
+  </div>
+  <a routerLink="/applications/new" class="btn btn--primary">+ New application</a>
+</section>
+
+<section class="stats" aria-label="Application summary">
+  <article class="card stat">
+    <p class="stat__label">Total</p>
+    <p class="stat__value">{{ counts().total }}</p>
+  </article>
+
+  @for (item of breakdown(); track item.status) {
+    <article class="card stat" [attr.data-status]="item.status">
+      <p class="stat__label">{{ item.status }}</p>
+      <p class="stat__value">{{ item.count }}</p>
+    </article>
+  }
+</section>
+
+@if (counts().total > 0) {
+  <section class="card panel">
+    <h2>Status breakdown</h2>
+    <div class="bar" role="img" aria-label="Applications by status">
+      @for (item of breakdown(); track item.status) {
+        @if (item.count > 0) {
+          <span
+            class="bar__segment"
+            [attr.data-status]="item.status"
+            [style.width.%]="item.percent"
+            [title]="item.status + ': ' + item.count"
+          ></span>
+        }
+      }
+    </div>
+    <ul class="legend">
+      @for (item of breakdown(); track item.status) {
+        <li>
+          <span class="legend__dot" [attr.data-status]="item.status"></span>
+          {{ item.status }} · {{ item.count }}
+        </li>
+      }
+    </ul>
+  </section>
+
+  <section class="card panel">
+    <div class="panel__head">
+      <h2>Recent applications</h2>
+      <a routerLink="/applications" class="link">View all</a>
+    </div>
+    <ul class="recent">
+      @for (app of recent(); track app.id) {
+        <li class="recent__item">
+          <div>
+            <p class="recent__title">{{ app.position }}</p>
+            <p class="muted small">{{ app.company }} · {{ app.appliedDate | date: 'mediumDate' }}</p>
+          </div>
+          <app-status-badge [status]="app.status" />
+        </li>
+      }
+    </ul>
+  </section>
+} @else {
+  <div class="card empty">
+    <h2>Nothing to show yet</h2>
+    <p class="muted">Add your first application and your stats will appear here.</p>
+    <a routerLink="/applications/new" class="btn btn--primary">Add application</a>
+  </div>
+}
