@@ -45,22 +45,32 @@
     [value]="service.searchTerm()"
     (input)="service.searchTerm.set(q.value)"
   />
-  <select #s class="input" aria-label="Filter by status" (change)="setStatus(s.value)">
-    <option value="All" [selected]="service.statusFilter() === 'All'">All statuses</option>
-    @for (st of statuses; track st) {
-      <option [value]="st" [selected]="service.statusFilter() === st">{{ st }}</option>
-    }
-  </select>
-  <select
-    #sort
-    class="input toolbar__sort"
-    aria-label="Sort applications"
-    (change)="setSort(sort.value)"
-  >
-    @for (o of sortOptions; track o.value) {
-      <option [value]="o.value" [selected]="sortValue() === o.value">{{ o.label }}</option>
-    }
-  </select>
+
+  <div class="select-wrap">
+    <select #s class="input" aria-label="Filter by status" (change)="setStatus(s.value)">
+      <option value="All" [selected]="service.statusFilter() === 'All'">All statuses</option>
+      @for (st of statuses; track st) {
+        <option [value]="st" [selected]="service.statusFilter() === st">{{ st }}</option>
+      }
+    </select>
+    <ion-icon class="chev-down" name="chevron-down-outline"></ion-icon>
+    <ion-icon class="chev-up" name="chevron-up-outline"></ion-icon>
+  </div>
+
+  <div class="select-wrap toolbar__sort">
+    <select
+      #sort
+      class="input"
+      aria-label="Sort applications"
+      (change)="setSort(sort.value)"
+    >
+      @for (o of sortOptions; track o.value) {
+        <option [value]="o.value" [selected]="sortValue() === o.value">{{ o.label }}</option>
+      }
+    </select>
+    <ion-icon class="chev-down" name="chevron-down-outline"></ion-icon>
+    <ion-icon class="chev-up" name="chevron-up-outline"></ion-icon>
+  </div>
 </div>
 
 @if (service.filtered().length > 0) {
@@ -105,17 +115,21 @@
             <td data-label="Position">{{ app.position }}</td>
             <td data-label="Applied">{{ app.appliedDate | date: 'mediumDate' }}</td>
             <td data-label="Status">
-              <select
-                #st
-                class="status-select"
-                [attr.data-status]="app.status"
-                [attr.aria-label]="'Change status for ' + app.company"
-                (change)="changeStatus(app, st.value)"
-              >
-                @for (option of statuses; track option) {
-                  <option [value]="option" [selected]="option === app.status">{{ option }}</option>
-                }
-              </select>
+              <div class="select-wrap select-wrap--pill">
+                <select
+                  #st
+                  class="status-select"
+                  [attr.data-status]="app.status"
+                  [attr.aria-label]="'Change status for ' + app.company"
+                  (change)="changeStatus(app, st.value)"
+                >
+                  @for (option of statuses; track option) {
+                    <option [value]="option" [selected]="option === app.status">{{ option }}</option>
+                  }
+                </select>
+                <ion-icon class="chev-down" name="chevron-down-outline"></ion-icon>
+                <ion-icon class="chev-up" name="chevron-up-outline"></ion-icon>
+              </div>
             </td>
             <td class="actions-cell">
               <div class="actions">

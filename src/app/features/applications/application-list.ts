@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, signal, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import {
   APPLICATION_STATUSES,
@@ -14,6 +14,7 @@ import { ApplicationsService } from '../../core/services/applications.service';
 @Component({
   selector: 'app-application-list',
   imports: [RouterLink, DatePipe],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: './application-list.html',
   styleUrl: './application-list.scss',
 })

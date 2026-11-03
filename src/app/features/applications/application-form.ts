@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { APPLICATION_STATUSES, ApplicationStatus } from '../../core/models/application.model';
@@ -7,6 +7,7 @@ import { ApplicationsService } from '../../core/services/applications.service';
 @Component({
   selector: 'app-application-form',
   imports: [ReactiveFormsModule, RouterLink],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: './application-form.html',
   styleUrl: './application-form.scss',
 })
